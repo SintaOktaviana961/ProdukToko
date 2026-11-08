@@ -1,0 +1,4 @@
+.root-box { -fx-background-color: #f4f6f8; }
+.judul { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #1f3a5f; }
+.button { -fx-background-color: #1f6feb; -fx-text-fill: white; -fx-background-radius: 6; }
+.button:hover { -fx-background-color: #1558c0; }

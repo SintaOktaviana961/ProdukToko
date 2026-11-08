@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10.0" prefWidth="560.0" prefHeight="600.0" styleClass="root-box"
+      stylesheets="@produk.css"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.ProdukController">
+   <padding>
+      <Insets top="20.0" right="20.0" bottom="20.0" left="20.0"/>
+   </padding>
+   <children>
+      <Label text="Daftar Produk Toko" styleClass="judul"/>
+      <GridPane hgap="10.0" vgap="8.0">
+         <columnConstraints>
+            <ColumnConstraints minWidth="90.0"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+         </columnConstraints>
+         <children>
+            <Label text="Kode Produk" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtKode" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Nama Produk" GridPane.rowIndex="1"/>
+            <TextField fx:id="txtNama" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Kategori" GridPane.rowIndex="2"/>
+            <ComboBox fx:id="cmbKategori" maxWidth="Infinity" promptText="Pilih kategori"
+                      GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Harga" GridPane.rowIndex="3"/>
+            <TextField fx:id="txtHarga" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+         </children>
+      </GridPane>
+      <Button fx:id="btnTambah" text="Tambah Produk" onAction="#tambahProduk"/>
+      <HBox spacing="8.0">
+         <children>
+            <TextField fx:id="txtCari" promptText="Cari nama produk..." HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnCari" text="Cari" onAction="#cariProduk"/>
+         </children>
+      </HBox>
+      <TableView fx:id="tblProduk" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="colKode" text="Kode"/>
+            <TableColumn fx:id="colNama" text="Nama"/>
+            <TableColumn fx:id="colKategori" text="Kategori"/>
+            <TableColumn fx:id="colHarga" text="Harga"/>
+         </columns>
+      </TableView>
+      <Button fx:id="btnDetail" text="Lihat Detail" onAction="#lihatDetail"/>
+   </children>
+</VBox>
