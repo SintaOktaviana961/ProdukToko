@@ -23,6 +23,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Produk;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 public class ProdukController implements Initializable {
 
@@ -52,6 +56,16 @@ public class ProdukController implements Initializable {
 
         tblProduk.setItems(daftarProduk);
         tblProduk.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        buatTombolEditHapus();
+
+        tblProduk.getSelectionModel().selectedItemProperty().addListener((obs, lama, baru) -> {
+            if (baru != null) {
+                txtKode.setText(baru.getKode());
+                txtNama.setText(baru.getNama());
+                cmbKategori.setValue(baru.getKategori());
+                txtHarga.setText(String.valueOf(baru.getHarga()));
+            }
+        }); 
     }
 
     // Dipanggil tombol "Tambah Produk"
@@ -142,4 +156,47 @@ public class ProdukController implements Initializable {
         alert.setContentText(pesan);
         alert.show();
     }
-}
+    @FXML
+    private void handleEdit() {
+        Produk dipilih = tblProduk.getSelectionModel().getSelectedItem();
+        if (dipilih == null) {
+            tampilPeringatan("Pilih produk di tabel terlebih dahulu!");
+            return;
+        }
+        try {
+            dipilih.setNama(txtNama.getText());
+            dipilih.setHarga(Double.parseDouble(txtHarga.getText()));
+            tblProduk.refresh();
+            } catch (NumberFormatException e) {
+                tampilPeringatan("Harga harus berupa angka!");
+            } catch (IllegalArgumentException e) {
+                tampilPeringatan(e.getMessage());
+            }
+    }
+
+        @FXML
+        private void handleHapus() {
+            Produk dipilih = tblProduk.getSelectionModel().getSelectedItem();
+            if (dipilih == null) {
+                tampilPeringatan("Pilih produk di tabel terlebih dahulu!");
+                return;
+            }
+            Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
+                "Hapus " + dipilih.getNama() + "?");
+            if (konfirmasi.showAndWait().get() == ButtonType.OK) {
+                tblProduk.getItems().remove(dipilih);
+            }
+        }
+        private void buatTombolEditHapus() {
+            Button btnEdit = new Button("Edit");
+            Button btnHapus = new Button("Hapus");
+            btnEdit.setOnAction(e -> handleEdit());
+            btnHapus.setOnAction(e -> handleHapus());
+
+            HBox kotak = new HBox(10, btnEdit, btnHapus);
+
+            Pane induk = (Pane) tblProduk.getParent();
+            int posisi = induk.getChildren().indexOf(tblProduk);
+            induk.getChildren().add(posisi + 1, kotak);
+        }
+    }
